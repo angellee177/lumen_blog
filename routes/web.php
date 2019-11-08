@@ -11,9 +11,16 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/', function () use($router){
     return $router->app->version();
 });
 
 
+$router->group(['prefix' => 'api/v1/posts', 'as'=>'post'], function($router)
+{
+    $router->post('/add', 'PostsController@createPost');
+    $router->put('show/{id}', 'PostsController@updatePost');
+    $router->delete('/delete/{id}', 'PostsController@deletePost');
+    $router->get('/index', 'PostsController@indexPost');
+});
 

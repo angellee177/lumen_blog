@@ -19,23 +19,23 @@ class PostsController extends Controller
 
      }
 
-     public function index()
+     public function indexPost()
      {
         $posts = Post::latest()->paginate(5);
 
-        return response()->json($post);
+        return response()->json($posts);
     }
 
     // Create Post Function
-    public function create(Request $request){
-        $post - Post::create($request->all());
+    public function createPost(Request $request){
+        $post = Post::create($request->all());
 
         return response()->json($post);
      }
 
 
     // Update Post Function
-     public function update(Request $request, $id)
+     public function updatePost(Request $request, $id)
      {
         $post = Post::find($id);
         $post->title = $request->input('title');
@@ -47,7 +47,7 @@ class PostsController extends Controller
 
 
     // Delete Post By Id
-    public function delete($id)
+    public function deletePost($id)
     {
         $post = Post::find($id);
         $post->delete();
