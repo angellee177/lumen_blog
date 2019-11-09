@@ -18,9 +18,10 @@ $router->get('/', function () use($router){
 
 $router->group(['prefix' => 'api/v1/posts', 'as'=>'post'], function($router)
 {
-    $router->post('/add', 'PostsController@createPost');
-    $router->put('show/{id}', 'PostsController@updatePost');
-    $router->delete('/delete/{id}', 'PostsController@deletePost');
-    $router->get('/index', 'PostsController@indexPost');
+    $router->post('/add', 'PostsController@create');
+    $router->put('/update/{id}', 'PostsController@update');
+    $router->delete('/delete/{id}', 'PostsController@delete');
+    $router->get('/index', 'PostsController@index');
+    $router->get('/show/{id}', 'PostsController@show');
 });
 

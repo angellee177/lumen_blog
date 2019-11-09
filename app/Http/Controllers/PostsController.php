@@ -14,45 +14,67 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    
+
      public function __construct()
      {
 
      }
 
-     public function indexPost()
+     public function index()
      {
         $posts = Post::latest()->paginate(5);
 
-        return response()->json($posts);
+        return response()->json($posts, 200);
     }
 
     // Create Post Function
-    public function createPost(Request $request){
+    public function create(Request $request)
+    {   
+        $this->validate($request, [
+            'title' => 'required|min:5|unique:posts',
+            'description' => 'required|min:25'
+        ]);
+        
         $post = Post::create($request->all());
 
-        return response()->json($post);
+        return response()->json($post, 201);
      }
 
-
-    // Update Post Function
-     public function updatePost(Request $request, $id)
-     {
+    
+    // Show Post function
+    public function show($id)
+    {
         $post = Post::find($id);
-        $post->title = $request->input('title');
-        $post->description->$request->input('description');
-        $post->views->$request->input('views');
+        if(empty($post)){
+            return response()->json('No Data found', 420);
+        }
 
-        return response()->json('Successfully update post', $post);
+        return response()->json($post, 200);
+    }
+
+    
+    // Update Post Function
+     public function update(Request $request, $id)
+     { 
+        $this->validate($request, [
+            'title' => 'min:5|unique:posts',
+            'description' => 'min:25'
+        ]);
+        $post = Post::find($id);
+        $post->update($request->all());
+
+        return response()->json($post, 201);
     }
 
 
     // Delete Post By Id
-    public function deletePost($id)
+    public function delete($id)
     {
         $post = Post::find($id);
         $post->delete();
 
-        return response()->json('Successfully Delete Post', $post);
+        return response()->json($post, 200);
     }
 }
 
